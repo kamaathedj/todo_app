@@ -1,5 +1,5 @@
 
-import 'dart:collection';
+
 
 import 'package:mobx/mobx.dart';
 import 'package:todo_app/src/database/todo_db.dart';
@@ -19,7 +19,7 @@ abstract class _TodoStore with Store{
   List<Todo> todos=[];
 
   @action
-  void getTodos()async{
+  Future<void> getTodos()async{
     todos=await db.allTodoEntries;
   }
   

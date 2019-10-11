@@ -55,7 +55,7 @@ class Database extends _$Database {
       );
     }
 
-    // watches all category entries in a given category. The stream will automatically
+    // watches all todo entries in a given todos. The stream will automatically
   // emit new items whenever the underlying data changes.
     Stream<List<Todo>> watchEntriesInTodo(Todo c) {
     return (select(todos)..where((t) => t.id.equals(c.id))).watch();

@@ -13,7 +13,7 @@ class _CreatePageState extends State<CreatePage> {
   String _title;
   String _description;
   final _formKey= GlobalKey<FormState>();
-  DateTime _selectedDate=DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     
@@ -26,11 +26,18 @@ class _CreatePageState extends State<CreatePage> {
         child: Center(
           child:ListView(
             children: <Widget>[
-             Card( 
-                child: Container(
+             Container(
+               decoration: BoxDecoration(color: Colors.white,
+               borderRadius: BorderRadius.circular(20),
+               boxShadow: [
+                 BoxShadow(color: Colors.black26,
+                 spreadRadius: 0.1,
+                 blurRadius: 10)
+               ]
+               ),
              height: 200,
              width: 350,
-             color: Colors.white,
+            
              child: Padding(
                padding: const EdgeInsets.all(20.0),
                child: Text('Create  a reminder or a note.',
@@ -38,46 +45,56 @@ class _CreatePageState extends State<CreatePage> {
                textAlign: TextAlign.center),
              ),
              
-                ),
-                
-              ),
+             ),
+             SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Card(
-                    child: Container(
-                      height: 200,
-                      width: 160,
-                      color: Colors.blue,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(icon: Icon(Icons.add),
-                          iconSize: 50.0,
-                          onPressed: ()=>todoDialog(),
-                          ),
-                          Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100),)
+                  Container(
+                    decoration: BoxDecoration(color: Colors.blue,
+               borderRadius: BorderRadius.circular(20),
+               boxShadow: [
+                 BoxShadow(color: Colors.black26,
+                 spreadRadius: 0.1,
+                 blurRadius: 10)
+               ]
+               ),
+                    height: 200,
+                    width: 160,
+                    
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(icon: Icon(Icons.add,color: Colors.white,),
+                        iconSize: 50.0,
+                        onPressed: ()=>todoDialog(),
+                        ),
+                        Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.white),)
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-                  Card(
-                    child: Container(
-                      height: 200,
-                      width: 160,
-                      color: Colors.amberAccent,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(icon: Icon(Icons.alarm_add),
-                          iconSize: 50.0,
-                          onPressed: (){reminderDialog();},
-                          ),
-                          Text('add a reminder',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100),)
+                  Container(
+                    decoration: BoxDecoration(color: Colors.amberAccent,
+               borderRadius: BorderRadius.circular(20),
+               boxShadow: [
+                 BoxShadow(color: Colors.black26,
+                 spreadRadius: 0.1,
+                 blurRadius: 10)
+               ]
+               ),
+                    height: 200,
+                    width: 160,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(icon: Icon(Icons.alarm_add,color: Colors.green,),
+                        iconSize: 50.0,
+                        onPressed: (){reminderDialog();},
+                        ),
+                        Text('add a reminder',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.green),)
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ],
@@ -182,7 +199,24 @@ class _CreatePageState extends State<CreatePage> {
 }
     );
   }
+  // not yet use
+  Future<DateTime> timeAndDate(){
+    return showDatePicker(
+      context: null, 
+      firstDate: null,
+      initialDate: null,
+      lastDate: null,
+    builder: (BuildContext context, Widget child) {
+    return Theme(
+      data: ThemeData.dark(),
+      child: child,
+    );
+    }
 
+    );
+  
+  }
+ 
   //reminder dialog
   Future<Widget> reminderDialog(){
     
@@ -241,6 +275,7 @@ class _CreatePageState extends State<CreatePage> {
               _formKey.currentState.save();
              _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:_dateTime ));
             Navigator.pop(context);
+            
             }
           },
         )
@@ -261,9 +296,8 @@ class Picker extends StatefulWidget {
 }
 
 class _PickerState extends State<Picker> {
-  DateTime _selectedDate=DateTime.now();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Container(
        child:  MonthPicker(
                   firstDate: DateTime.now().subtract(const Duration(days: 20)),
@@ -280,4 +314,5 @@ class _PickerState extends State<Picker> {
     );
   }
 }
+
 

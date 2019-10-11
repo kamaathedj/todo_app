@@ -22,29 +22,29 @@ String getDate(String date){
 
   return '$day/$month/$year';
 }
-CircleAvatar GetIcons(String date){
+CircleAvatar getIcons(String date,DateTime dateTime){
   if(DateTime.parse(date).weekday==1){
-    return CircleAvatar(child: Text('Mon',style: TextStyle(fontSize: 13),)); 
+    return CircleAvatar(child: Text('Mon',style: TextStyle(fontSize: 13,color: Colors.white),),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==2){
-    return CircleAvatar(child: Text('Tue',style: TextStyle(fontSize: 13))); 
+    return CircleAvatar(child: Text('Tue',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==3){
-    return  CircleAvatar(child: Text('Wed',style: TextStyle(fontSize: 13))); 
+    return  CircleAvatar(child: Text('Wed',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==4){
-    return  CircleAvatar(child: Text('Thu',style: TextStyle(fontSize: 13))); 
+    return  CircleAvatar(child: Text('Thu',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==5){
-    return  CircleAvatar(child: Text('Fri',style: TextStyle(fontSize: 13))); 
+    return  CircleAvatar(child: Text('Fri',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==6){
-    return  CircleAvatar(child: Text('Sat',style: TextStyle(fontSize: 13))); 
+    return  CircleAvatar(child: Text('Sat',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
   if(DateTime.parse(date).weekday==7){
-    return  CircleAvatar(child: Text('Sun',style: TextStyle(fontSize: 13))); 
+    return  CircleAvatar(child: Text('Sun',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
   }
-  return  CircleAvatar(child: Text('unk',style: TextStyle(fontSize: 13))); 
+  return  CircleAvatar(child: Text('unk',style: TextStyle(fontSize: 13,color: Colors.white)),backgroundColor: comparingDates(dateTime),); 
 
 }
 
@@ -75,6 +75,13 @@ String getDay(String date){
   }
   return 'a new day';
 
+}
+Color comparingDates(DateTime date){
+if(DateTime.now().day==date.day){
+  return Colors.red;
+}else{
+  return Colors.green;
+}
 }
 
 class _ReminderPageState extends State<ReminderPage> {
@@ -113,7 +120,7 @@ class _ReminderPageState extends State<ReminderPage> {
                         }
                           }, 
                           child: ExpansionTile(
-                          leading:GetIcons(item.targetDate.toString()),
+                          leading:getIcons(item.targetDate.toString(),item.targetDate),
                           title: Text(item.title),
                           children: <Widget>[
                             Text(item.description),
