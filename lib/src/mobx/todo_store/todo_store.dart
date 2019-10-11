@@ -20,7 +20,7 @@ abstract class _TodoStore with Store{
 
   @action
   Future<void> getTodos()async{
-    todos=await db.allTodoEntries;
+    todos=await db.allTodoEntries();
   }
   
 }

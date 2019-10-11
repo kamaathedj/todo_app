@@ -61,10 +61,13 @@ class Database extends _$Database {
     return (select(todos)..where((t) => t.id.equals(c.id))).watch();
   }
   //  returns all the data in todos
-    Future<List<Todo>> get allTodoEntries => select(todos).get();
+    // Future<List<Todo>> get allTodoEntries => select(todos).get();
 
     Future<List<Reminder>> get allReminderEntries => select(reminders).get();
 
+    Future<List<Todo>> allTodoEntries() {
+     return (select(todos)..orderBy([(t) => OrderingTerm(expression: t.createdOn,mode: OrderingMode.desc)])).get();
+    }
     //inserts data into todos
     void addTodoEntry(Todo entry) {
          into(todos).insert(entry);
@@ -79,12 +82,17 @@ class Database extends _$Database {
 
       void removeReminderEntry(Reminder item)=>
       (delete(reminders)..where((t)=>t.id.equals(item.id))).go();
-
-     
-
-
-      
-    
+  
+  // updating todo
+     Future<int> updateTodos(Todo c){
+      return (update(todos)
+            ..where((t) => t.id.equals(c.id))
+          ).write(TodosCompanion(
+            title: Value(c.title),
+            description: Value(c.description),
+          ),
+        );
+     }   
     
   }
   

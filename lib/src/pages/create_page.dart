@@ -230,7 +230,7 @@ class _CreatePageState extends State<CreatePage> {
       child: ListView(
         children: <Widget>[
           Container(
-          height: 400,
+          height: 440,
           child: ListView(
             children: <Widget>[
               Padding(

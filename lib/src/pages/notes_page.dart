@@ -105,7 +105,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
       ),
       body: Center(
             child:FutureBuilder(
-              future: _db.allTodoEntries,
+              future: _db.allTodoEntries(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 List<Todo> values = snapshot.data;
                 if(!snapshot.hasData){
@@ -173,7 +173,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
                                                   onPressed: (){
                                                     if (_formKey.currentState.validate()){
                                                     _formKey.currentState.save();
-                                                    _db.watchEntriesInTodo(Todo(id: item.id));
+                                                    _db.updateTodos(Todo(id: item.id,title: _title,description: _description));
                                                      }
                                                   },
                                                 ),
