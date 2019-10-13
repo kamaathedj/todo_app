@@ -63,7 +63,9 @@ class Database extends _$Database {
   //  returns all the data in todos
     // Future<List<Todo>> get allTodoEntries => select(todos).get();
 
-    Future<List<Reminder>> get allReminderEntries => select(reminders).get();
+    Future<List<Reminder>> allReminderEntries(){
+    return (select(reminders)..orderBy([(t) => OrderingTerm(expression: t.targetDate,mode: OrderingMode.desc)])).get();
+    }
 
     Future<List<Todo>> allTodoEntries() {
      return (select(todos)..orderBy([(t) => OrderingTerm(expression: t.createdOn,mode: OrderingMode.desc)])).get();

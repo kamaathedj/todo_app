@@ -26,10 +26,27 @@ mixin _$TodoStore on _TodoStore, Store {
     }, _$todosAtom, name: '${_$todosAtom.name}_set');
   }
 
+  final _$remindersAtom = Atom(name: '_TodoStore.reminders');
+
+  @override
+  List<Reminder> get reminders {
+    _$remindersAtom.context.enforceReadPolicy(_$remindersAtom);
+    _$remindersAtom.reportObserved();
+    return super.reminders;
+  }
+
+  @override
+  set reminders(List<Reminder> value) {
+    _$remindersAtom.context.conditionallyRunInAction(() {
+      super.reminders = value;
+      _$remindersAtom.reportChanged();
+    }, _$remindersAtom, name: '${_$remindersAtom.name}_set');
+  }
+
   final _$getTodosAsyncAction = AsyncAction('getTodos');
 
   @override
-  Future getTodos() {
+  Future<void> getTodos() {
     return _$getTodosAsyncAction.run(() => super.getTodos());
   }
 }

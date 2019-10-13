@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
+import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
 
 class CreatePage extends StatefulWidget {
   CreatePage({Key key}) : super(key: key);
@@ -14,9 +15,10 @@ class _CreatePageState extends State<CreatePage> {
   String _description;
   final _formKey= GlobalKey<FormState>();
 
+  
+
   @override
-  Widget build(BuildContext context) {
-    
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo app')
@@ -108,6 +110,7 @@ class _CreatePageState extends State<CreatePage> {
   }
   TextFormField buildTitleFormField(BuildContext context) {
     return TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           onSaved: (t){
             _title=t;
             print(_title);
@@ -124,7 +127,7 @@ class _CreatePageState extends State<CreatePage> {
   }
   TextFormField buildDescriptionFormField(BuildContext context) {
     return TextFormField(
-          
+          textCapitalization: TextCapitalization.sentences,
           maxLines: 5,
           onSaved: (t){
             _description=t;
@@ -143,6 +146,7 @@ class _CreatePageState extends State<CreatePage> {
   }
   Future<Widget> todoDialog(){
     final _db=Provider.of<Database>(context);
+    final _store=Provider.of<TodoStore>(context);
     return showDialog(
       context: context,
      builder: (context){
@@ -182,6 +186,8 @@ class _CreatePageState extends State<CreatePage> {
                       if (_formKey.currentState.validate()){
                         _formKey.currentState.save();
                        _db.addTodoEntry(Todo(title: _title,description: _description));
+                       _store.getTodos();
+
                       Navigator.pop(context);
                       }
                     },
@@ -221,6 +227,7 @@ class _CreatePageState extends State<CreatePage> {
   Future<Widget> reminderDialog(){
     
     final _db=Provider.of<Database>(context);
+    final _store=Provider.of<TodoStore>(context); 
     return showDialog(
       context: context,
      builder: (context){
@@ -274,6 +281,7 @@ class _CreatePageState extends State<CreatePage> {
             if (_formKey.currentState.validate()){
               _formKey.currentState.save();
              _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:_dateTime ));
+            _store.getReminders();
             Navigator.pop(context);
             
             }
