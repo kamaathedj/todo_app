@@ -162,10 +162,13 @@ class _ReminderPageState extends State<ReminderPage> {
                     if(direction==DismissDirection.endToStart){
                  
                   _db.removeReminderEntry(item);
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),));
+                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),
+                  action: SnackBarAction(label: 'Undo', onPressed: (){print('undo done');},),));
                 }else{
                     _db.removeReminderEntry(item);
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),));
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),
+                    action: SnackBarAction(label: 'Undo', onPressed: (){print('undo done');},),
+                    ));
                 }
                   }, 
                   child: ExpansionTile(
@@ -196,4 +199,5 @@ class _ReminderPageState extends State<ReminderPage> {
       ),
     );
   }
+  
 }

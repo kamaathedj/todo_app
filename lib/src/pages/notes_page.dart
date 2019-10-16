@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
-//import 'package:todo_app/src/mobx/counter/counter_store.dart';
+
 
 class NotesPage extends StatefulWidget {
 
@@ -118,7 +116,8 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
     return Scaffold(
       key: _scafoldKey,
       appBar: AppBar(
-        title: Text('Notes 😎'),
+       
+        title: Text('Notes'),
       ),
       body: Observer(
         builder: (context){
@@ -182,7 +181,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
       (context)=>BottomSheet(
         elevation: 5,
         builder: (_)=>Container(
-          height: 300,
+          height: MediaQuery.of(context).size.height/2,
           width: MediaQuery.of(context).size.width,
           
             decoration: BoxDecoration(color: Colors.white,
@@ -282,6 +281,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
         if(direction==DismissDirection.endToStart){
           print('deleted');
           _db.removeTodoEntry(item);
+          
           Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
         }else{
           // _db.removeTodoEntry(item);

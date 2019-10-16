@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
@@ -37,8 +38,8 @@ class _CreatePageState extends State<CreatePage> {
                  blurRadius: 10)
                ]
                ),
-             height: 200,
-             width: 350,
+             height: MediaQuery.of(context).size.height/2-100 ,
+             width: MediaQuery.of(context).size.width,
             
              child: Padding(
                padding: const EdgeInsets.all(20.0),
@@ -67,8 +68,8 @@ class _CreatePageState extends State<CreatePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(icon: Icon(Icons.add,color: Colors.white,),
-                        iconSize: 50.0,
+                        IconButton(icon: Icon(GroovinMaterialIcons.note_plus,color: Colors.white,),
+                        iconSize: 40.0,
                         onPressed: ()=>todoDialog(),
                         ),
                         Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.white),)
@@ -90,8 +91,8 @@ class _CreatePageState extends State<CreatePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(icon: Icon(Icons.alarm_add,color: Colors.green,),
-                        iconSize: 50.0,
+                        IconButton(icon: Icon(GroovinMaterialIcons.reminder,color: Colors.green,),
+                        iconSize: 40.0,
                         onPressed: (){reminderDialog();},
                         ),
                         Text('add a reminder',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.green),)
@@ -253,7 +254,7 @@ class _CreatePageState extends State<CreatePage> {
                 SizedBox(height: 5,),
                 buildDescriptionFormField(context),
                 SizedBox(height: 10,),
-                Text('Pick time and Date'),
+                Text('Pick a Date'),
                 // this is the date picker
                  Picker(),
                 // end

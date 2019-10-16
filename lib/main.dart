@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
 import 'package:todo_app/src/pages/create_page.dart';
 import 'package:todo_app/src/pages/notes_page.dart';
+import 'package:todo_app/src/pages/play.dart';
 import 'package:todo_app/src/pages/reminder_page.dart';
+import 'package:groovin_material_icons/groovin_material_icons.dart';
 
 
 
@@ -62,7 +64,8 @@ class MyApp extends StatelessWidget {
           ),
 
          
-           home: Navigation(),
+          //  home: Navigation(),
+          home: Navigator(),
           )
       ),
     );
@@ -70,53 +73,47 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Navigation extends StatefulWidget {
-  Navigation({Key key,}) : super(key: key);
-  @override
-  _NavigationState createState() => _NavigationState();
-}
 
-class _NavigationState extends State<Navigation> {
-  int _counter = 0;
-  final List<Widget>_children=[
-    CreatePage(),
-    NotesPage(),
-    ReminderPage(),
-  ];
-   
-
-  // here
+class Navigator extends StatelessWidget {
+  const Navigator({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:_children[_counter],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _counter,
-        onTap: (index){
-           setState(() {
-             _counter=index;
-             
-           });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            title: Text('Create')
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.all_out),
-            title: Text('Notes')
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.alarm_add),
-            title: Text('Reminders')
-          ),
-          
-        ],
-      ),
+    return  DefaultTabController(
       
+      length: 3,
+      child: Scaffold(
+        body: TabBarView(
+          children: <Widget>[
+            CreatePage(),
+            NotesPage(),
+            ReminderPage(),
+          ],
+        ),
+        bottomNavigationBar: TabBar(
+          tabs: <Widget>[
+            Tab(
+               icon: Icon(GroovinMaterialIcons.edit_outline),
+             child: Text('Create')
+            ),
+             Tab(
+              icon: Icon(GroovinMaterialIcons.notebook),
+             child: Text('Notes')
+            ),
+             Tab(
+               icon: Icon(GroovinMaterialIcons.reminder),
+               child: Text('Reminders')
+            )
+            
+          ],
+          labelColor: Colors.green,
+          indicatorSize:TabBarIndicatorSize.label ,
+          unselectedLabelColor: Colors.black,
+          indicatorColor:Colors.green ,
+        ) ,
+        // backgroundColor: Colors.black,
+      ),
+
     );
   }
-
 }

@@ -8,11 +8,8 @@ class Meme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ReorderableListView(
-        children: <Widget>[], 
-        onReorder: (int oldIndex, int newIndex) {},
-        
-        )
+      child: Text('meme'),
     );
   }
 }
+

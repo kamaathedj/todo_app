@@ -12,14 +12,19 @@ class TodoStore=_TodoStore with _$TodoStore;
 
 abstract class _TodoStore with Store{
   Database db=Database();
+   
+  //  HashMap<int, Todo>_cachedTodo;
 
   _TodoStore(){
- 
+
+//  _cachedTodo=HashMap<int, Todo>();
   getTodos();
   getReminders();
 
   }
+
   
+ 
  
 
   @observable
@@ -31,7 +36,24 @@ abstract class _TodoStore with Store{
   @action
   Future<void> getTodos()async{
     todos=await db.allTodoEntries();
+    // for (final t in await db.allTodoEntries()){
+    //   todos.add(singleCache(t));
+    // }
+    // print(todos);
+
+   
   }
+
+  // Todo singleCache(Todo todo){
+  //  if(!_cachedTodo.containsKey(todo.id)){
+  //  _cachedTodo[todo.id]=todo;
+   
+  //  }else{
+  //    NullThrownError();
+  //  }
+  //  return _cachedTodo[todo.id];
+  
+  // }
 
   Future<void> getReminders()async{
   reminders=await db.allReminderEntries();
