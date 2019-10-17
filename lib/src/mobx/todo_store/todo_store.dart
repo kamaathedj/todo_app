@@ -37,14 +37,14 @@ abstract class _TodoStore with Store{
   Future<void> getTodos()async{
     todos=await db.allTodoEntries();
     // for (final t in await db.allTodoEntries()){
-    //   todos.add(singleCache(t));
+    //todos.add(singleCache(t));
     // }
     // print(todos);
 
    
   }
 
-  // Todo singleCache(Todo todo){
+  //  singleCache(Todo todo){
   //  if(!_cachedTodo.containsKey(todo.id)){
   //  _cachedTodo[todo.id]=todo;
    
