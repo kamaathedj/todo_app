@@ -4,6 +4,7 @@ import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
+import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
 
 class CreatePage extends StatefulWidget {
   CreatePage({Key key}) : super(key: key);
@@ -20,6 +21,7 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   Widget build(BuildContext context) {    
+    final modeProvider=Provider.of<LightOrDark>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo app')
@@ -48,6 +50,14 @@ class _CreatePageState extends State<CreatePage> {
                textAlign: TextAlign.center),
              ),
              
+             ),
+             SizedBox(height: 10,),
+             FlatButton(
+               onPressed: (){
+                 modeProvider.darkMode();
+               },
+               color: Colors.blue,
+               child: Text('changeTheme'),
              ),
              SizedBox(height: 10,),
               Row(

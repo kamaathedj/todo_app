@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
+import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
 import 'package:todo_app/src/pages/create_page.dart';
 import 'package:todo_app/src/pages/notes_page.dart';
-import 'package:todo_app/src/pages/play.dart';
 import 'package:todo_app/src/pages/reminder_page.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 
 
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    
-                return MultiProvider(
-                  providers: [
+void main() {
+  
+  
+ runApp(
+   
+   MultiProvider(
+     
+     providers: [
                        Provider<Database>(
                          builder: (_)=>Database(),
                        ),
                        Provider<TodoStore>(
                          builder: (_)=>TodoStore(),
+                       ),
+                       Provider<LightOrDark>(
+                        builder: (_)=>LightOrDark(),
                        )
                      ],
-                      
-                      child: RefreshConfiguration(
+     
+     child: MyApp())
+   
+   );
+
+} 
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final modeProvider=Provider.of<LightOrDark>(context);
+                return RefreshConfiguration(
                        headerBuilder: () => WaterDropHeader(),        // Configure the default header indicator. If you have the same header indicator for each page, you need to set this
                        footerBuilder:  () => ClassicFooter(),        // Configure default bottom indicator
                        headerTriggerDistance: 80.0,        // header trigger refresh trigger distance
@@ -39,7 +53,8 @@ class MyApp extends StatelessWidget {
                        enableLoadingWhenFailed : true, //In the case of load failure, users can still trigger more loads by gesture pull-up.
                        hideFooterWhenNotFull: false, // Disable pull-up to load more functionality when Viewport is less than one screen
                        enableBallisticLoad: true, // trigger load more by BallisticScrollActivity
-                      child: MaterialApp(
+                      child: Observer(
+                                  builder:(context)=> MaterialApp(
             //             localizationsDelegates: [
             //               // this line is important
             //               RefreshLocalizations.delegate,
@@ -57,18 +72,20 @@ class MyApp extends StatelessWidget {
             // },
           debugShowCheckedModeBanner: false,
           title: 'Todo App',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-            fontFamily: 'Oxygen'
+          // theme: ThemeData(
+          //   primarySwatch: Colors.green,
+          //   fontFamily: 'Oxygen'
             
-          ),
+          // ),
+          theme:modeProvider.mode,
 
          
           //  home: Navigation(),
           home: Navigator(),
-          )
-      ),
-    );
+          ),
+                      )
+      );
+    
     
   }
 }
