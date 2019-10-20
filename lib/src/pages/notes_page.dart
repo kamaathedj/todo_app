@@ -18,7 +18,7 @@ class _NotesPageState extends State<NotesPage> {
    RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  final GlobalKey<ScaffoldState> _scafoldKey=GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _notescafoldKey=GlobalKey<ScaffoldState>();
 
 
 
@@ -114,7 +114,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
     final _store=Provider.of<TodoStore>(context);
     final _db=Provider.of<Database>(context);
     return Scaffold(
-      key: _scafoldKey,
+      key: _notescafoldKey,
       appBar: AppBar(
        
         title: Text('Notes'),
@@ -187,7 +187,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
           // return Future(()=>true);
         }else{
 
-      controller=Scaffold.of(context).showBottomSheet(
+      controller=_notescafoldKey.currentState.showBottomSheet(
       (context)=>BottomSheet(
         elevation: 5,
         builder: (_)=>Container(
@@ -253,9 +253,8 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
                   )
                 ],
             )
-        ), onClosing: () {},
-              
-
+        ),
+         onClosing: () {},
             )
           );
           return Future(()=>false);
@@ -287,18 +286,6 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
         )
       
       ),   
-      // onDismissed: (direction){
-      //   if(direction==DismissDirection.endToStart){
-      //     print('deleted');
-      //     _db.removeTodoEntry(item);
-      //     _store.getTodos();
-      //     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
-      //   }else{
-      //     // _db.removeTodoEntry(item);
-      //     //  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
-        
-      //   }
-      // },
       key: Key(item.id.toString()),
             child: ExpansionTile(
             key: Key(item.id.toString()),
