@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
 import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
+import 'package:todo_app/src/pages/popup/main_popup.dart';
 
 class CreatePage extends StatefulWidget {
   CreatePage({Key key}) : super(key: key);
@@ -24,7 +25,10 @@ class _CreatePageState extends State<CreatePage> {
     final modeProvider=Provider.of<LightOrDark>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo app')
+        title: Text('Todo app'),
+        actions: <Widget>[
+          Pop()
+        ],
       ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
@@ -32,33 +36,25 @@ class _CreatePageState extends State<CreatePage> {
           child:ListView(
             children: <Widget>[
              Container(
-               decoration: BoxDecoration(color: Colors.white,
-               borderRadius: BorderRadius.circular(20),
-               boxShadow: [
-                 BoxShadow(color: Colors.black26,
-                 spreadRadius: 0.1,
-                 blurRadius: 10)
-               ]
-               ),
-             height: MediaQuery.of(context).size.height/2-100 ,
-             width: MediaQuery.of(context).size.width,
+             decoration: BoxDecoration(color: Colors.white,
+             borderRadius: BorderRadius.circular(20),
+             boxShadow: [
+               BoxShadow(color: Colors.white,
+               spreadRadius: 0.1,
+               blurRadius: 10)
+             ]
+             ),
+               height: MediaQuery.of(context).size.height/2-100 ,
+               width: MediaQuery.of(context).size.width,
             
-             child: Padding(
-               padding: const EdgeInsets.all(20.0),
-               child: Text('Create  a reminder or a note.',
-               style: TextStyle(fontSize: 36.0,fontWeight: FontWeight.w100 ,),
-               textAlign: TextAlign.center),
-             ),
-             
-             ),
-             SizedBox(height: 10,),
-             FlatButton(
-               onPressed: (){
-                 modeProvider.darkMode();
-               },
-               color: Colors.blue,
-               child: Text('changeTheme'),
-             ),
+               child: Padding(
+             padding: const EdgeInsets.all(20.0),
+             child: Text('Create  a reminder or a note.',
+             style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.w100 ,wordSpacing: 3,color: Color(0xff707070)),
+             textAlign: TextAlign.center),
+               ),
+               
+               ),
              SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -184,14 +180,14 @@ class _CreatePageState extends State<CreatePage> {
                 alignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FlatButton(
-                    color: Colors.redAccent,
+                    color: Theme.of(context).errorColor,
                     textTheme: ButtonTextTheme.primary,
                     child: Text('Cancel'),
                     onPressed: (){Navigator.pop(context);},
                   ),
                   FlatButton(
                     child: Text('Save',style: TextStyle(color: Colors.white),),
-                    color: Colors.green,
+                    color: Theme.of(context).buttonColor,
                     textTheme: ButtonTextTheme.primary,
                     onPressed: (){
                       if (_formKey.currentState.validate()){
@@ -279,14 +275,14 @@ class _CreatePageState extends State<CreatePage> {
       alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         FlatButton(
-          color: Colors.redAccent,
+          color: Theme.of(context).errorColor,
           textTheme: ButtonTextTheme.primary,
           child: Text('Cancel'),
           onPressed: (){Navigator.pop(context);},
         ),
         FlatButton(
           child: Text('Save',style: TextStyle(color: Colors.white),),
-          color: Colors.green,
+          color: Theme.of(context).buttonColor,
           textTheme: ButtonTextTheme.primary,
           onPressed: (){
             if (_formKey.currentState.validate()){

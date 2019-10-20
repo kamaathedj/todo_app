@@ -18,12 +18,10 @@ class LightOrDark=_LightOrDark with _$LightOrDark;
   void normalMode(){
     mode = ThemeData(
       primarySwatch: Colors.green,
+      primaryColor: Color(0xff78AC65),
       fontFamily: 'Oxygen',
-      primaryColor: Colors.indigo,
-      canvasColor: Colors.white30,
-      // cardTheme: CardTheme()
       
-
+      
     );
   }
 
@@ -31,7 +29,15 @@ class LightOrDark=_LightOrDark with _$LightOrDark;
   void darkMode(){
     mode = ThemeData(
       fontFamily: 'Oxygen',
-      primarySwatch: Colors.green
+      primarySwatch: Colors.green,
+      primaryColor: Color(0xff442c2e),
+      canvasColor: Color(0xfffffbe6),
+      cardColor: Color(0xfffedbd0),
+      textSelectionColor: Colors.white,
+      accentColor: Colors.green,
+      buttonColor: Colors.green,
+      errorColor: Colors.red,
+      
 
     );
   }
