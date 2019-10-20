@@ -212,24 +212,7 @@ class _CreatePageState extends State<CreatePage> {
 }
     );
   }
-  // not yet use
-  Future<DateTime> timeAndDate(){
-    return showDatePicker(
-      context: null, 
-      firstDate: null,
-      initialDate: null,
-      lastDate: null,
-    builder: (BuildContext context, Widget child) {
-    return Theme(
-      data: ThemeData.dark(),
-      child: child,
-    );
-    }
-
-    );
   
-  }
- 
   //reminder dialog
   Future<Widget> reminderDialog(){
     
