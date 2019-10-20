@@ -95,6 +95,17 @@ class Database extends _$Database {
           ),
         );
      }   
+
+     Future<int> updateReminders(Reminder c){
+      return (update(reminders)
+            ..where((t) => t.id.equals(c.id))
+          ).write(RemindersCompanion(
+            title: Value(c.title),
+            description: Value(c.description),
+            targetDate: Value(c.targetDate),
+          ),
+        );
+     }   
     
   }
   

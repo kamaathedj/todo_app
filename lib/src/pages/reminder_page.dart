@@ -11,8 +11,14 @@ class ReminderPage extends StatefulWidget {
   _ReminderPageState createState() => _ReminderPageState();
 }
 
+ String _title;
+  String _description;
+  final _formKey= GlobalKey<FormState>();
+
 RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+PersistentBottomSheetController controller;
+ final GlobalKey<ScaffoldState> _reminderScafoldKey=GlobalKey<ScaffoldState>();
 
 String getTime(String date){
  int hour= DateTime.parse(date).hour;
@@ -92,6 +98,47 @@ if(DateTime.now().day==date.day){
 }
 
 }
+TextFormField buildTitleFormField(BuildContext context,String hint) {
+    return TextFormField(
+          textCapitalization: TextCapitalization.sentences,
+          initialValue: hint,
+          onSaved: (t){
+            _title=t;
+            print(_title);
+          },
+          validator:(input){
+          if(input.isEmpty){
+            return 'please enter a title';
+          }
+          } ,
+          decoration: InputDecoration(
+            filled: true,
+            // hintText: hint
+              )
+            );    
+  }
+  TextFormField buildDescriptionFormField(BuildContext context,String hint) {
+    return TextFormField(
+          textCapitalization: TextCapitalization.sentences,
+          initialValue: hint,
+          maxLines: 2,
+          onSaved: (t){
+            _description=t;
+            print(_description);
+          },
+          validator:(input){
+          if(input.isEmpty){
+            return 'please enter a description';
+          }
+          } ,
+          decoration: InputDecoration(
+
+            filled: true,
+            // hintText: hint
+              )
+            );    
+  }
+
 
 class _ReminderPageState extends State<ReminderPage> {
   @override
@@ -99,6 +146,7 @@ class _ReminderPageState extends State<ReminderPage> {
     final _db=Provider.of<Database>(context);
     final _store=Provider.of<TodoStore>(context);
     return Scaffold(
+      key: _reminderScafoldKey,
       appBar: AppBar(
         title: Text('Reminders'),
       ),
@@ -157,19 +205,113 @@ class _ReminderPageState extends State<ReminderPage> {
                 child: Dismissible(
                   key: Key(item.id.toString()),
                   background: Container(color: Colors.green,),
-                  secondaryBackground: Container(color: Colors.green,),  
-                  onDismissed: (direction){
+                  secondaryBackground: Container(color: Colors.red,
+                  child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                            Icon(Icons.delete_forever,color: Colors.white,),
+                            SizedBox(width: 10,),
+                            Text('Delete the reminder',style: TextStyle(color: Colors.white,),)
+                           ],
+                          ),
+                         )
+                  ),  
+                  confirmDismiss: (direction){
                     if(direction==DismissDirection.endToStart){
-                 
-                  _db.removeReminderEntry(item);
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),
-                  action: SnackBarAction(label: 'Undo', onPressed: (){print('undo done');},),));
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text('Confirm deleted !'),
+                    action: SnackBarAction(label: 'Delete',
+                   onPressed: (){
+                     print('deleted');
+                     _db.removeReminderEntry(item);
+                     _store.getReminders();
+                     return Future(()=>true);
+                     },
+                     ),
+                     )
+                     );
                 }else{
-                    _db.removeReminderEntry(item);
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Reminder is deleted'),
-                    action: SnackBarAction(label: 'Undo', onPressed: (){print('undo done');},),
-                    ));
-                }
+                    // _db.removeReminderEntry(item);
+                   controller = _reminderScafoldKey.currentState.showBottomSheet(
+                        (context)=>BottomSheet(
+                        elevation: 5,
+                        builder: (_) =>
+                          Container(
+                          height: MediaQuery.of(context).size.height/2,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black26,
+                            spreadRadius: 0.1,
+                            blurRadius: 10)
+                          ]
+                          
+                          ),
+                          child: ListView(
+                        children: <Widget>[
+                         Form(
+                       key: _formKey,
+                      child: Column(
+                      children: <Widget>[
+                        Text('Edit Reminder',style: TextStyle(fontSize: 20),),
+                        Divider(height: 2,color: Colors.green,),
+                        SizedBox(height: 10,),
+                        Text('Title'),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: buildTitleFormField(context,item.title),
+                        ),
+                        Text('Description'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: buildDescriptionFormField(context,item.description),
+                        ),
+                        Text('select a a new date'),
+                         Picker(),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            FlatButton(
+                            color: Theme.of(context).errorColor,
+                            textTheme: ButtonTextTheme.primary,
+                            child: Text('Cancel'),
+                            onPressed: (){
+                              controller.close();
+                            },
+                          ),
+                          FlatButton(
+                            color: Theme.of(context).buttonColor,
+                            textTheme: ButtonTextTheme.primary,
+                            child: Text('Save'),
+                            onPressed: (){
+                              if (_formKey.currentState.validate()){
+                              _formKey.currentState.save();
+                              _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
+                              controller.closed.then((i)=>_store.getReminders());
+                              controller.close();
+                                }
+                            },
+                          ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                 
+                ],
+            )
+                          
+                          ),
+                        
+                        onClosing: () {},
+
+                      )
+                    );
+                     return Future(()=>false);
+                   }
                   }, 
                   child: ExpansionTile(
                   leading:getIcons(item.targetDate.toString(),item.targetDate),
@@ -201,3 +343,31 @@ class _ReminderPageState extends State<ReminderPage> {
   }
   
 }
+
+DateTime _dateTime=DateTime.now();
+class Picker extends StatefulWidget {  
+  _PickerState createState() => _PickerState();
+}
+
+class _PickerState extends State<Picker> {
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      width: 300,
+       child:  MonthPicker(
+                  firstDate: DateTime.now().subtract(const Duration(days: 20)),
+                   onChanged: (DateTime value) {
+                     setState(() {
+                       _dateTime=value;
+                       print(_dateTime);
+                     });
+                   }, 
+                   lastDate: DateTime.now().add(const Duration(days: 30)), 
+                   selectedDate: _dateTime
+
+                ),
+    );
+  }
+}
+
+
