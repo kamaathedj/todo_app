@@ -174,7 +174,17 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
       child: Dismissible(
       confirmDismiss:(direction){
         if(direction==DismissDirection.endToStart){
-          return Future(()=>true);
+          Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text('Confirm delete'),
+            action: SnackBarAction(label: 'Delete',
+            onPressed: (){
+              print('run dismissal');
+              _db.removeTodoEntry(item);
+              _store.getTodos();  
+              return Future(()=>false);
+            },),
+          ));
+          // return Future(()=>true);
         }else{
 
       controller=Scaffold.of(context).showBottomSheet(
@@ -184,7 +194,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
           height: MediaQuery.of(context).size.height/2,
           width: MediaQuery.of(context).size.width,
           
-            decoration: BoxDecoration(color: Colors.white,
+            decoration: BoxDecoration(color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
             boxShadow: [
               BoxShadow(color: Colors.black26,
@@ -216,7 +226,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
                           alignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             FlatButton(
-                            color: Colors.red,
+                            color: Theme.of(context).errorColor,
                             textTheme: ButtonTextTheme.primary,
                             child: Text('Cancel'),
                             onPressed: (){
@@ -224,7 +234,7 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
                             },
                           ),
                           FlatButton(
-                            color: Colors.green,
+                            color: Theme.of(context).buttonColor,
                             textTheme: ButtonTextTheme.primary,
                             child: Text('Save'),
                             onPressed: (){
@@ -277,22 +287,22 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
         )
       
       ),   
-      onDismissed: (direction){
-        if(direction==DismissDirection.endToStart){
-          print('deleted');
-          _db.removeTodoEntry(item);
-          
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
-        }else{
-          // _db.removeTodoEntry(item);
-          //  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
+      // onDismissed: (direction){
+      //   if(direction==DismissDirection.endToStart){
+      //     print('deleted');
+      //     _db.removeTodoEntry(item);
+      //     _store.getTodos();
+      //     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
+      //   }else{
+      //     // _db.removeTodoEntry(item);
+      //     //  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Note is deleted'),));
         
-        }
-      },
+      //   }
+      // },
       key: Key(item.id.toString()),
             child: ExpansionTile(
             key: Key(item.id.toString()),
-            leading: CircleAvatar(child: Text(item.id.toString()),),
+            leading: item.id.isOdd ? CircleAvatar(child: Icon(Icons.star_border)):CircleAvatar(child: Icon(Icons.star)),
             title: Text(item.title),
             children: <Widget>[
               Padding(
