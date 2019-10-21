@@ -239,7 +239,7 @@ class _ReminderPageState extends State<ReminderPage> {
                         elevation: 5,
                         builder: (_) =>
                           Container(
-                          height: MediaQuery.of(context).size.height/2,
+                          height: MediaQuery.of(context).size.height/2+50,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
@@ -269,8 +269,15 @@ class _ReminderPageState extends State<ReminderPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: buildDescriptionFormField(context,item.description),
                         ),
-                        Text('select a a new date'),
-                         Picker(),
+                        // Text('select a a new date'),
+                        ExpansionTile(
+                          leading: Icon(Icons.calendar_today),
+                          title: Text('Select a new Date'),
+                          children: <Widget>[
+                             Picker(),
+                          ],
+                        ),
+
                         ButtonBar(
                           alignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[

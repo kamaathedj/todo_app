@@ -13,7 +13,7 @@ class Pop extends StatelessWidget {
           items: <PopupMenuEntry>[
            PopupMenuItem(
              enabled: false,
-             child: Text('Select light or dark')
+             child: Text('Select light or dark',style: TextStyle(color: Theme.of(context).textSelectionColor),)
              ),
              PopupMenuDivider(height: 5,),
               PopupMenuItem(

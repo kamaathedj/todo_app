@@ -109,10 +109,10 @@ class Navigator extends StatelessWidget {
             )
             
           ],
-          labelColor: Colors.green,
+          labelColor: Theme.of(context).accentColor,
           indicatorSize:TabBarIndicatorSize.label ,
           unselectedLabelColor: Colors.black,
-          indicatorColor:Colors.green ,
+          indicatorColor:Theme.of(context).accentColor ,
         ) ,
         // backgroundColor: Colors.black,
       ),

@@ -36,10 +36,10 @@ class _CreatePageState extends State<CreatePage> {
           child:ListView(
             children: <Widget>[
              Container(
-             decoration: BoxDecoration(color: Colors.white,
+             decoration: BoxDecoration(color: Theme.of(context).cardColor,
              borderRadius: BorderRadius.circular(20),
              boxShadow: [
-               BoxShadow(color: Colors.white,
+               BoxShadow(color: Theme.of(context).cardColor,
                spreadRadius: 0.1,
                blurRadius: 10)
              ]
@@ -50,7 +50,7 @@ class _CreatePageState extends State<CreatePage> {
                child: Padding(
              padding: const EdgeInsets.all(20.0),
              child: Text('Create  a reminder or a note.',
-             style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.w100 ,wordSpacing: 3,color: Color(0xff707070)),
+             style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.w100 ,wordSpacing: 3,color:Theme.of(context).textSelectionColor),
              textAlign: TextAlign.center),
                ),
                
@@ -60,7 +60,7 @@ class _CreatePageState extends State<CreatePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(color: Colors.blue,
+                    decoration: BoxDecoration(color: Theme.of(context).cardColor,
                borderRadius: BorderRadius.circular(20),
                boxShadow: [
                  BoxShadow(color: Colors.black26,
@@ -74,17 +74,17 @@ class _CreatePageState extends State<CreatePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(icon: Icon(GroovinMaterialIcons.note_plus,color: Colors.white,),
+                        IconButton(icon: Icon(GroovinMaterialIcons.note_plus,color: Theme.of(context).primaryColor,),
                         iconSize: 40.0,
                         onPressed: ()=>todoDialog(),
                         ),
-                        Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.white),)
+                        Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Theme.of(context).textSelectionColor),)
 
                       ],
                     ),
                   ),
                   Container(
-                    decoration: BoxDecoration(color: Colors.amberAccent,
+                    decoration: BoxDecoration(color: Theme.of(context).cardColor,
                borderRadius: BorderRadius.circular(20),
                boxShadow: [
                  BoxShadow(color: Colors.black26,
@@ -97,11 +97,11 @@ class _CreatePageState extends State<CreatePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(icon: Icon(GroovinMaterialIcons.reminder,color: Colors.green,),
+                        IconButton(icon: Icon(GroovinMaterialIcons.reminder,color:Theme.of(context).primaryColor,),
                         iconSize: 40.0,
                         onPressed: (){reminderDialog();},
                         ),
-                        Text('add a reminder',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Colors.green),)
+                        Text('add a reminder',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,),)
 
                       ],
                     ),
