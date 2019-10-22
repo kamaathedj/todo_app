@@ -33,30 +33,33 @@ abstract class _TodoStore with Store{
   @observable
   List<Reminder> reminders=[];
 
+  @computed
+  int get numberOfReminders => reminders.length;
+
+  @computed
+  int get numberOfTodos => todos.length;
+
+  
+  int  todayTodos (){
+   int k =0;
+   for(final r in reminders){
+     if(r.targetDate.day == DateTime.now().day){
+     k++;
+     }
+   }
+   return k;
+  } 
+
   @action
   Future<void> getTodos()async{
     todos=await db.allTodoEntries();
-    // for (final t in await db.allTodoEntries()){
-    //todos.add(singleCache(t));
-    // }
-    // print(todos);
-
    
   }
 
-  //  singleCache(Todo todo){
-  //  if(!_cachedTodo.containsKey(todo.id)){
-  //  _cachedTodo[todo.id]=todo;
-   
-  //  }else{
-  //    NullThrownError();
-  //  }
-  //  return _cachedTodo[todo.id];
-  
-  // }
 
   Future<void> getReminders()async{
   reminders=await db.allReminderEntries();
+  todayTodos();
   }
   
 }

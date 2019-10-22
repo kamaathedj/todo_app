@@ -149,6 +149,15 @@ class _ReminderPageState extends State<ReminderPage> {
       key: _reminderScafoldKey,
       appBar: AppBar(
         title: Text('Reminders'),
+        actions: <Widget>[
+          Center(child: Text('Today',style: TextStyle(fontSize: 18),)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Observer(
+              builder: (context)=> CircleAvatar(child: Text(_store.todayTodos().toString()),),
+            ),
+          )
+        ],
       ),
       body: Observer(
         builder: (context){
@@ -221,11 +230,12 @@ class _ReminderPageState extends State<ReminderPage> {
                   confirmDismiss: (direction){
                     if(direction==DismissDirection.endToStart){
                     Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('Confirm deleted !'),
+                    content: Text('Are you sure you want to delete ?'),
                     action: SnackBarAction(label: 'Delete',
                    onPressed: (){
                      print('deleted');
                      _db.removeReminderEntry(item);
+                     _store.reminders.removeAt(index);
                      _store.getReminders();
                      return Future(()=>true);
                      },

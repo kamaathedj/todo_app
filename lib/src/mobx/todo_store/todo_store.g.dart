@@ -9,6 +9,19 @@ part of 'todo_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TodoStore on _TodoStore, Store {
+  Computed<int> _$numberOfRemindersComputed;
+
+  @override
+  int get numberOfReminders => (_$numberOfRemindersComputed ??=
+          Computed<int>(() => super.numberOfReminders))
+      .value;
+  Computed<int> _$numberOfTodosComputed;
+
+  @override
+  int get numberOfTodos =>
+      (_$numberOfTodosComputed ??= Computed<int>(() => super.numberOfTodos))
+          .value;
+
   final _$todosAtom = Atom(name: '_TodoStore.todos');
 
   @override
