@@ -175,11 +175,11 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
       confirmDismiss:(direction){
         if(direction==DismissDirection.endToStart){
           Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Confirm delete'),
+            SnackBar(content: Text('Are you sure you want to delete ?'),
             action: SnackBarAction(label: 'Delete',
             onPressed: (){
-              print('run dismissal');
               _db.removeTodoEntry(item);
+             _store.todos.removeAt(index);
               _store.getTodos();  
               return Future(()=>false);
             },),

@@ -49,8 +49,8 @@ class _CreatePageState extends State<CreatePage> {
             
                child: Padding(
              padding: const EdgeInsets.all(20.0),
-             child: Text('Create  a reminder or a note.',
-             style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.w100 ,wordSpacing: 3,color:Theme.of(context).textSelectionColor),
+             child: Text('Create  a note or a reminder.',
+             style: TextStyle(fontSize: 40.0,fontWeight: FontWeight.w100 ,color:Theme.of(context).textSelectionColor),
              textAlign: TextAlign.center),
                ),
                
@@ -78,7 +78,7 @@ class _CreatePageState extends State<CreatePage> {
                         iconSize: 40.0,
                         onPressed: ()=>todoDialog(),
                         ),
-                        Text('add a Note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Theme.of(context).textSelectionColor),)
+                        Text('add a note',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w100,color: Theme.of(context).textSelectionColor),)
 
                       ],
                     ),
@@ -97,7 +97,7 @@ class _CreatePageState extends State<CreatePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(icon: Icon(GroovinMaterialIcons.reminder,color:Theme.of(context).primaryColor,),
+                        IconButton(icon: Icon(GroovinMaterialIcons.bell_plus,color:Theme.of(context).primaryColor,),
                         iconSize: 40.0,
                         onPressed: (){reminderDialog();},
                         ),
