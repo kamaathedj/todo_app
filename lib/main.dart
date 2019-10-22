@@ -83,7 +83,6 @@ class Navigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(
-      
       length: 3,
       child: Scaffold(
         body: TabBarView(
@@ -97,15 +96,15 @@ class Navigator extends StatelessWidget {
           tabs: <Widget>[
             Tab(
                icon: Icon(GroovinMaterialIcons.edit_outline),
-             child: Text('Create')
+            //  child: Text('Create')
             ),
              Tab(
-              icon: Icon(GroovinMaterialIcons.notebook),
-             child: Text('Notes')
+              icon: Icon(GroovinMaterialIcons.note_multiple_outline),
+            //  child: Text('Notes')
             ),
              Tab(
-               icon: Icon(GroovinMaterialIcons.reminder),
-               child: Text('Reminders')
+               icon: Icon(GroovinMaterialIcons.bell_ring_outline),
+              //  child: Text('Reminders')
             )
             
           ],
