@@ -39,6 +39,46 @@ mixin _$LightOrDark on _LightOrDark, Store {
   }
 
   @override
+  void redMode() {
+    final _$actionInfo = _$_LightOrDarkActionController.startAction();
+    try {
+      return super.redMode();
+    } finally {
+      _$_LightOrDarkActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void blueMode() {
+    final _$actionInfo = _$_LightOrDarkActionController.startAction();
+    try {
+      return super.blueMode();
+    } finally {
+      _$_LightOrDarkActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void yellowMode() {
+    final _$actionInfo = _$_LightOrDarkActionController.startAction();
+    try {
+      return super.yellowMode();
+    } finally {
+      _$_LightOrDarkActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void indigoMode() {
+    final _$actionInfo = _$_LightOrDarkActionController.startAction();
+    try {
+      return super.indigoMode();
+    } finally {
+      _$_LightOrDarkActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void darkMode() {
     final _$actionInfo = _$_LightOrDarkActionController.startAction();
     try {
