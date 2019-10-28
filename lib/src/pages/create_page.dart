@@ -17,6 +17,8 @@ class _CreatePageState extends State<CreatePage> {
   String _title;
   String _description;
   final _formKey= GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _createScafoldKey=GlobalKey<ScaffoldState>();
+
 
   
 
@@ -24,10 +26,11 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext context) {    
     final modeProvider=Provider.of<LightOrDark>(context);
     return Scaffold(
+      key:_createScafoldKey,
       appBar: AppBar(
         title: Text('Todo app'),
         actions: <Widget>[
-          Pop()
+          Pop(this._createScafoldKey)
         ],
       ),
       body:Padding(
@@ -186,7 +189,7 @@ class _CreatePageState extends State<CreatePage> {
                     onPressed: (){Navigator.pop(context);},
                   ),
                   FlatButton(
-                    child: Text('Save',style: TextStyle(color: Colors.white),),
+                    child: Text('Save',),
                     color: Theme.of(context).buttonColor,
                     textTheme: ButtonTextTheme.primary,
                     onPressed: (){
