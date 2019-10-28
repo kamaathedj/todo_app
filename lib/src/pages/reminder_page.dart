@@ -246,21 +246,21 @@ class _ReminderPageState extends State<ReminderPage> {
                     // _db.removeReminderEntry(item);
                    controller = _reminderScafoldKey.currentState.showBottomSheet(
                         (context)=>BottomSheet(
-                        elevation: 5,
+                        elevation: 50,
                         builder: (_) =>
-                          Container(
-                          height: MediaQuery.of(context).size.height/2+50,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black26,
-                            spreadRadius: 0.1,
-                            blurRadius: 10)
-                          ]
-                          
-                          ),
-                          child: ListView(
+                        Container(
+                        height: MediaQuery.of(context).size.height/2+50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(40),topLeft: Radius.circular(40)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black26,
+                          spreadRadius: 0.1,
+                          blurRadius: 10)
+                        ]
+                        
+                        ),
+                        child: ListView(
                         children: <Widget>[
                          Form(
                        key: _formKey,
@@ -271,48 +271,48 @@ class _ReminderPageState extends State<ReminderPage> {
                         SizedBox(height: 10,),
                         Text('Title'),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: buildTitleFormField(context,item.title),
+                        padding: const EdgeInsets.all(10.0),
+                        child: buildTitleFormField(context,item.title),
                         ),
                         Text('Description'),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: buildDescriptionFormField(context,item.description),
+                        padding: const EdgeInsets.all(8.0),
+                        child: buildDescriptionFormField(context,item.description),
                         ),
                         // Text('select a a new date'),
                         ExpansionTile(
-                          leading: Icon(Icons.calendar_today),
-                          title: Text('Select a new Date'),
-                          children: <Widget>[
-                             Picker(),
-                          ],
+                        leading: Icon(Icons.calendar_today),
+                        title: Text('Select a new Date'),
+                        children: <Widget>[
+                           Picker(),
+                        ],
                         ),
 
                         ButtonBar(
-                          alignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            FlatButton(
-                            color: Theme.of(context).errorColor,
-                            textTheme: ButtonTextTheme.primary,
-                            child: Text('Cancel'),
-                            onPressed: (){
-                              controller.close();
-                            },
-                          ),
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
                           FlatButton(
-                            color: Theme.of(context).buttonColor,
-                            textTheme: ButtonTextTheme.primary,
-                            child: Text('Save'),
-                            onPressed: (){
-                              if (_formKey.currentState.validate()){
-                              _formKey.currentState.save();
-                              _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
-                              controller.closed.then((i)=>_store.getReminders());
-                              controller.close();
-                                }
-                            },
-                          ),
-                          ],
+                          color: Theme.of(context).errorColor,
+                          textTheme: ButtonTextTheme.primary,
+                          child: Text('Cancel'),
+                          onPressed: (){
+                            controller.close();
+                          },
+                        ),
+                        FlatButton(
+                          color: Theme.of(context).buttonColor,
+                          textTheme: ButtonTextTheme.primary,
+                          child: Text('Save'),
+                          onPressed: (){
+                            if (_formKey.currentState.validate()){
+                            _formKey.currentState.save();
+                            _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
+                            controller.closed.then((i)=>_store.getReminders());
+                            controller.close();
+                              }
+                          },
+                        ),
+                        ],
                         )
                       ],
                     ),
@@ -320,11 +320,9 @@ class _ReminderPageState extends State<ReminderPage> {
                  
                 ],
             )
-                          
-                          ),
                         
-                        onClosing: () {},
-
+                        ),
+                       onClosing: (){},
                       )
                     );
                      return Future(()=>false);

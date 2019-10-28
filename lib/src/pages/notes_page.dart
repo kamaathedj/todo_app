@@ -189,17 +189,17 @@ TextFormField buildTitleFormField(BuildContext context,String hint) {
 
       controller=_notescafoldKey.currentState.showBottomSheet(
       (context)=>BottomSheet(
-        elevation: 5,
+        elevation: 50,
         builder: (_)=>Container(
           height: MediaQuery.of(context).size.height/2,
           width: MediaQuery.of(context).size.width,
           
             decoration: BoxDecoration(color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(40),topLeft: Radius.circular(40)),
             boxShadow: [
               BoxShadow(color: Colors.black26,
               spreadRadius: 0.1,
-              blurRadius: 10)
+              blurRadius: 3)
             ]
             
             ),
