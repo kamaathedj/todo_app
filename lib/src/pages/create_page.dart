@@ -28,7 +28,7 @@ class _CreatePageState extends State<CreatePage> {
       appBar: AppBar(
         title: Text('Todo app'),
         actions: <Widget>[
-          Pop(this._createScafoldKey)
+          Pop()
         ],
       ),
       body:Padding(
