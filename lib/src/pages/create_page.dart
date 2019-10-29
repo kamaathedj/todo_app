@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
@@ -17,6 +18,8 @@ class _CreatePageState extends State<CreatePage> {
   String _description;
   final _formKey= GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _createScafoldKey=GlobalKey<ScaffoldState>();
+
+  TimeOfDay selectedTime=TimeOfDay.now();
 
 
   
@@ -228,7 +231,7 @@ class _CreatePageState extends State<CreatePage> {
       child: ListView(
         children: <Widget>[
           Container(
-          height: 440,
+          height: 430,
           child: ListView(
             children: <Widget>[
               Padding(
@@ -244,9 +247,23 @@ class _CreatePageState extends State<CreatePage> {
                 SizedBox(height: 5,),
                 buildDescriptionFormField(context),
                 SizedBox(height: 10,),
-                Text('Pick a Date'),
+                
                 // this is the date picker
-                 Picker(),
+                ExpansionTile(
+                  title:Text('Pick a Date'),
+                  children: <Widget>[
+                  Picker(),
+                  ],
+                  
+                ),
+                SizedBox(height: 10,),
+                FlatButton(
+                  color: Theme.of(context).buttonColor,
+                  onPressed: selectTime,
+                  child: selectedTime==null ? Text('Pick time') : Text('${selectedTime.hour} : ${selectedTime.minute}'),
+                )
+                
+                 
                 // end
                   
               ],
@@ -286,6 +303,21 @@ class _CreatePageState extends State<CreatePage> {
   );  
 }
     );
+  }
+  Future<void> selectTime()async{
+    final time=await showTimePicker(
+      context: context, 
+      initialTime: selectedTime
+    );
+    setState(() {
+     selectedTime=time; 
+    });
+  }
+  DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
+  int hour=theTime.hour;
+  int minute=theTime.minute;
+  
+  
   }
   
 }
