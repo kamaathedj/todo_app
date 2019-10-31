@@ -6,6 +6,7 @@ import 'package:todo_app/src/database/todo_db.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
 import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
+import 'package:todo_app/src/notifications/notification.dart';
 import 'package:todo_app/src/pages/create_page.dart';
 import 'package:todo_app/src/pages/notes_page.dart';
 import 'package:todo_app/src/pages/reminder_page.dart';
@@ -29,6 +30,9 @@ void main() {
       ),
       Provider<LightOrDark>(
       builder: (_)=>LightOrDark(),
+      ),
+      Provider<NotificationPlugin>(
+        builder:(_)=>NotificationPlugin()
       )
     ],
      
