@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:todo_app/src/model/constants.dart';
 // import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,13 @@ class Pop extends StatelessWidget {
         return Constants.choices.map((String choice){
           return PopupMenuItem<String>(
             value: choice,
-            child: Text(choice),
+            child: Row(
+              children: <Widget>[
+                Constants.settings==choice ? Icon(Icons.settings) : Icon(GroovinMaterialIcons.anvil),
+                SizedBox(width: 10,), 
+                Text(choice),
+              ],
+            ),
           );
         }).toList();
       },
