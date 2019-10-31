@@ -5,6 +5,7 @@ import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
+import 'package:todo_app/src/notifications/notification.dart';
 import 'package:todo_app/src/pages/popup/main_popup.dart';
 
 class CreatePage extends StatefulWidget {
@@ -20,6 +21,8 @@ class _CreatePageState extends State<CreatePage> {
   final GlobalKey<ScaffoldState> _createScafoldKey=GlobalKey<ScaffoldState>();
 
   TimeOfDay selectedTime=TimeOfDay.now();
+
+  DateTime date=DateTime.now();
 
 
   
@@ -222,6 +225,7 @@ class _CreatePageState extends State<CreatePage> {
     
     final _db=Provider.of<Database>(context);
     final _store=Provider.of<TodoStore>(context); 
+    final _notification=Provider.of<NotificationPlugin>(context);
     return showDialog(
       context: context,
      builder: (context){
@@ -249,19 +253,36 @@ class _CreatePageState extends State<CreatePage> {
                 SizedBox(height: 10,),
                 
                 // this is the date picker
-                ExpansionTile(
-                  title:Text('Pick a Date'),
-                  children: <Widget>[
-                  Picker(),
-                  ],
+                // ExpansionTile(
+                //   title:Text('Pick a Date'),
+                //   children: <Widget>[
+                //   Picker(),
+                //   ],
                   
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                  Text('Choose date'),
+                  FlatButton(
+                    color: Theme.of(context).buttonColor,
+                    onPressed: showDate,
+                    child: Text('Date'),
+                  )
+                  ],
                 ),
                 SizedBox(height: 10,),
-                FlatButton(
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: <Widget>[
+                   Text('Choose time '),
+                    FlatButton(
                   color: Theme.of(context).buttonColor,
                   onPressed: selectTime,
-                  child: selectedTime==null ? Text('Pick time') : Text('${selectedTime.hour} : ${selectedTime.minute}'),
+                  child: Text('Time'),
                 )
+                 ],
+               )
                 
                  
                 // end
@@ -288,7 +309,11 @@ class _CreatePageState extends State<CreatePage> {
           onPressed: (){
             if (_formKey.currentState.validate()){
               _formKey.currentState.save();
-             _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:_dateTime ));
+             _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:date ));
+             var time=Time(selectedTime.hour,selectedTime.minute);
+             _notification.showWeeklyAtDayAndTime(time, Day(DateTime.parse(date.toString()).weekday+1), 1, _title, _description);
+             print(DateTime.parse(date.toUtc().toString()).weekday);
+             print(selectedTime);
             _store.getReminders();
             Navigator.pop(context);
             
@@ -310,40 +335,43 @@ class _CreatePageState extends State<CreatePage> {
       initialTime: selectedTime
     );
     setState(() {
-     selectedTime=time; 
+    if(time == null){
+       selectedTime=TimeOfDay.now(); 
+    }else{
+      selectedTime=time;
+    }
     });
   }
+
   DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
   int hour=theTime.hour;
   int minute=theTime.minute;
   
   
   }
+  Future<void> showDate()async{
+      final _date=await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 10)),
+      lastDate: DateTime.now().add(Duration(days: 10))
+    );
+    setState(() {
+     if(_date==null){
+       date=DateTime.now();
+     } else{
+      date=_date;
+     }
+     
+    });
+  }
+  String getDate(String date){
+  int year=DateTime.parse(date).year;
+  int month=DateTime.parse(date).month;
+  int day=DateTime.parse(date).day;
+
+  return '$day/$month/$year';
+}
   
 }
-DateTime _dateTime=DateTime.now();
-class Picker extends StatefulWidget {  
-  _PickerState createState() => _PickerState();
-}
-
-class _PickerState extends State<Picker> {
-  @override
-  Widget build(BuildContext context){
-    return Container(
-       child:  MonthPicker(
-                  firstDate: DateTime.now().subtract(const Duration(days: 20)),
-                   onChanged: (DateTime value) {
-                     setState(() {
-                       _dateTime=value;
-                       print(_dateTime);
-                     });
-                   }, 
-                   lastDate: DateTime.now().add(const Duration(days: 30)), 
-                   selectedDate: _dateTime
-
-                ),
-    );
-  }
-}
-
 
