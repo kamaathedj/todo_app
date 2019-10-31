@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
+import 'package:todo_app/src/notifications/notification.dart';
 
 class ReminderPage extends StatefulWidget {
   ReminderPage({Key key}) : super(key: key);
@@ -145,6 +146,7 @@ class _ReminderPageState extends State<ReminderPage> {
   Widget build(BuildContext context) {
     final _db=Provider.of<Database>(context);
     final _store=Provider.of<TodoStore>(context);
+    final _notification=Provider.of<NotificationPlugin>(context);
     return Scaffold(
       key: _reminderScafoldKey,
       appBar: AppBar(
@@ -213,7 +215,15 @@ class _ReminderPageState extends State<ReminderPage> {
             return Card(
                 child: Dismissible(
                   key: Key(item.id.toString()),
-                  background: Container(color: Colors.green,),
+                  background: Container(color: Colors.green,
+                  child: Row(
+                  children: <Widget>[
+                    Icon(Icons.edit,color: Colors.white,),
+                    SizedBox(width: 10,),
+                    Text('Edit the reminder',style: TextStyle(color: Colors.white,),)
+                  ],
+                  ),
+                  ),
                   secondaryBackground: Container(color: Colors.red,
                   child: Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -244,87 +254,7 @@ class _ReminderPageState extends State<ReminderPage> {
                      );
                 }else{
                     // _db.removeReminderEntry(item);
-                   controller = _reminderScafoldKey.currentState.showBottomSheet(
-                        (context)=>BottomSheet(
-                        elevation: 50,
-                        builder: (_) =>
-                        Container(
-                        height: MediaQuery.of(context).size.height/2+50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(40),topLeft: Radius.circular(40)),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black26,
-                          spreadRadius: 0.1,
-                          blurRadius: 10)
-                        ]
-                        
-                        ),
-                        child: ListView(
-                        children: <Widget>[
-                         Form(
-                       key: _formKey,
-                      child: Column(
-                      children: <Widget>[
-                        Text('Edit Reminder',style: TextStyle(fontSize: 20),),
-                        Divider(height: 2,color: Colors.green,),
-                        SizedBox(height: 10,),
-                        Text('Title'),
-                        Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: buildTitleFormField(context,item.title),
-                        ),
-                        Text('Description'),
-                        Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: buildDescriptionFormField(context,item.description),
-                        ),
-                        // Text('select a a new date'),
-                        ExpansionTile(
-                        leading: Icon(Icons.calendar_today),
-                        title: Text('Select a new Date'),
-                        children: <Widget>[
-                           Picker(),
-                        ],
-                        ),
-
-                        ButtonBar(
-                        alignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          FlatButton(
-                          color: Theme.of(context).errorColor,
-                          textTheme: ButtonTextTheme.primary,
-                          child: Text('Cancel'),
-                          onPressed: (){
-                            controller.close();
-                          },
-                        ),
-                        FlatButton(
-                          color: Theme.of(context).buttonColor,
-                          textTheme: ButtonTextTheme.primary,
-                          child: Text('Save'),
-                          onPressed: (){
-                            if (_formKey.currentState.validate()){
-                            _formKey.currentState.save();
-                            _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
-                            controller.closed.then((i)=>_store.getReminders());
-                            controller.close();
-                              }
-                          },
-                        ),
-                        ],
-                        )
-                      ],
-                    ),
-                  ),
-                 
-                ],
-            )
-                        
-                        ),
-                       onClosing: (){},
-                      )
-                    );
+                   controller = buildShowBottomSheet(item, _db, _store);
                      return Future(()=>false);
                    }
                   }, 
@@ -355,6 +285,90 @@ class _ReminderPageState extends State<ReminderPage> {
              
       ),
     );
+  }
+
+  PersistentBottomSheetController buildShowBottomSheet(Reminder item, Database _db, TodoStore _store) {
+    return _reminderScafoldKey.currentState.showBottomSheet(
+                      (context)=>BottomSheet(
+                      elevation: 50,
+                      builder: (_) =>
+                      Container(
+                      height: MediaQuery.of(context).size.height/2+50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(40),topLeft: Radius.circular(40)),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26,
+                        spreadRadius: 0.1,
+                        blurRadius: 10)
+                      ]
+                      
+                      ),
+                      child: ListView(
+                      children: <Widget>[
+                       Form(
+                     key: _formKey,
+                    child: Column(
+                    children: <Widget>[
+                      Text('Edit Reminder',style: TextStyle(fontSize: 20),),
+                      Divider(height: 2,color: Colors.green,),
+                      SizedBox(height: 10,),
+                      Text('Title'),
+                      Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: buildTitleFormField(context,item.title),
+                      ),
+                      Text('Description'),
+                      Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildDescriptionFormField(context,item.description),
+                      ),
+                      // Text('select a a new date'),
+                      ExpansionTile(
+                      leading: Icon(Icons.calendar_today),
+                      title: Text('Select a new Date'),
+                      children: <Widget>[
+                         Picker(),
+                      ],
+                      ),
+
+                      ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FlatButton(
+                        color: Theme.of(context).errorColor,
+                        textTheme: ButtonTextTheme.primary,
+                        child: Text('Cancel'),
+                        onPressed: (){
+                          controller.close();
+                        },
+                      ),
+                      FlatButton(
+                        color: Theme.of(context).buttonColor,
+                        textTheme: ButtonTextTheme.primary,
+                        child: Text('Save'),
+                        onPressed: (){
+                          if (_formKey.currentState.validate()){
+                          _formKey.currentState.save();
+                          _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
+                          controller.closed.then((i)=>_store.getReminders());
+                          controller.close();
+                            }
+                        },
+                      ),
+                      ],
+                      )
+                    ],
+                  ),
+                ),
+               
+              ],
+          )
+                      
+                      ),
+                     onClosing: (){},
+                    )
+                  );
   }
   
 }
