@@ -19,12 +19,6 @@ class _CreatePageState extends State<CreatePage> {
   String _description;
   final _formKey= GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _createScafoldKey=GlobalKey<ScaffoldState>();
-
-  TimeOfDay selectedTime=TimeOfDay.now();
-
-  DateTime date=DateTime.now();
-
-
   
 
   @override
@@ -251,38 +245,9 @@ class _CreatePageState extends State<CreatePage> {
                 SizedBox(height: 5,),
                 buildDescriptionFormField(context),
                 SizedBox(height: 10,),
-                
-                // this is the date picker
-                // ExpansionTile(
-                //   title:Text('Pick a Date'),
-                //   children: <Widget>[
-                //   Picker(),
-                //   ],
-                  
-                // ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                  Text('Choose date'),
-                  FlatButton(
-                    color: Theme.of(context).buttonColor,
-                    onPressed: showDate,
-                    child: Text('Date'),
-                  )
-                  ],
-                ),
+                DateReminderButton(),
                 SizedBox(height: 10,),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: <Widget>[
-                   Text('Choose time '),
-                    FlatButton(
-                  color: Theme.of(context).buttonColor,
-                  onPressed: selectTime,
-                  child: Text('Time'),
-                )
-                 ],
-               )
+                ReminderTimeButton()
                 
                  
                 // end
@@ -306,14 +271,12 @@ class _CreatePageState extends State<CreatePage> {
           child: Text('Save',style: TextStyle(color: Colors.white),),
           color: Theme.of(context).buttonColor,
           textTheme: ButtonTextTheme.primary,
-          onPressed: (){
+          onPressed: ()async{
             if (_formKey.currentState.validate()){
               _formKey.currentState.save();
-             _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:date ));
+             int k= await _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:date ));
              var time=Time(selectedTime.hour,selectedTime.minute);
-             _notification.showWeeklyAtDayAndTime(time, Day(DateTime.parse(date.toString()).weekday+1), 1, _title, _description);
-             print(DateTime.parse(date.toUtc().toString()).weekday);
-             print(selectedTime);
+             _notification.showWeeklyAtDayAndTime(time, Day(DateTime.parse(date.toString()).weekday+1), k, _title, _description);
             _store.getReminders();
             Navigator.pop(context);
             
@@ -329,26 +292,28 @@ class _CreatePageState extends State<CreatePage> {
 }
     );
   }
-  Future<void> selectTime()async{
-    final time=await showTimePicker(
-      context: context, 
-      initialTime: selectedTime
-    );
-    setState(() {
-    if(time == null){
-       selectedTime=TimeOfDay.now(); 
-    }else{
-      selectedTime=time;
-    }
-    });
-  }
-
+ 
   DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
   int hour=theTime.hour;
   int minute=theTime.minute;
   
   
   }
+  
+  
+}
+DateTime date=DateTime.now();
+
+class DateReminderButton extends StatefulWidget {
+  const DateReminderButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _DateReminderButtonState createState() => _DateReminderButtonState();
+}
+
+class _DateReminderButtonState extends State<DateReminderButton> {
   Future<void> showDate()async{
       final _date=await showDatePicker(
       context: context,
@@ -372,6 +337,69 @@ class _CreatePageState extends State<CreatePage> {
 
   return '$day/$month/$year';
 }
-  
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+      Text('Choose date'),
+      FlatButton(
+        color: Theme.of(context).buttonColor,
+        onPressed: showDate,
+        child: Text(getDate(date.toString())),
+      )
+      ],
+    );
+  }
+}
+ TimeOfDay selectedTime=TimeOfDay.now();
+class ReminderTimeButton extends StatefulWidget {
+  const ReminderTimeButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _ReminderTimeButtonState createState() => _ReminderTimeButtonState();
+}
+
+class _ReminderTimeButtonState extends State<ReminderTimeButton> {
+
+   Future<void> selectTime()async{
+    final time=await showTimePicker(
+      context: context, 
+      initialTime: selectedTime
+    );
+    setState(() {
+    if(time == null){
+       selectedTime=TimeOfDay.now(); 
+    }else{
+      selectedTime=time;
+    }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text('Choose time '),
+         FlatButton(
+       color: Theme.of(context).buttonColor,
+       onPressed: selectTime,
+       child: Text('${selectedTime.hour} : ${addZero(selectedTime.minute)}'),
+     )
+      ],
+    );
+  }
+
+  String addZero(int minute){
+    if(minute <10 ){
+      return '0$minute';
+    }else{
+     return '$minute';
+    }
+
+  }
 }
 

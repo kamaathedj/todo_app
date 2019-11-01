@@ -74,8 +74,8 @@ class Database extends _$Database {
     void addTodoEntry(Todo entry) {
          into(todos).insert(entry);
       }
-       void addReminderEntry(Reminder entry) {
-         into(reminders).insert(entry);
+       Future<int> addReminderEntry(Reminder entry) {
+         return into(reminders).insert(entry);
       }
 
       void removeTodoEntry(Todo item)=>
