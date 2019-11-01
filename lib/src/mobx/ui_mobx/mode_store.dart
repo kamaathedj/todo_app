@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'mode_store.g.dart';
 
@@ -7,7 +8,31 @@ class LightOrDark = _LightOrDark with _$LightOrDark;
 
 abstract class _LightOrDark with Store {
   _LightOrDark() {
+    getTheme();
+  }
+  static const String _themeField = 'theme';
+  SharedPreferences _prefs;
+  static const int theme=0;
+
+
+  Future<void> getTheme()async{
+   _prefs = await SharedPreferences.getInstance();
+   int theme = (_prefs.getInt(_themeField) ?? 1);
+   if(theme==1){
+     normalMode();
+   }else if(theme==2){
+    redMode();
+   }else if(theme==3){
+     blueMode();
+   }else if(theme==4){
+    yellowMode();
+  }else if(theme==5){
+    indigoMode();
+  }else if(theme==6){
+    darkMode();
+  }else{
     normalMode();
+  }
   }
 
   @observable
@@ -23,6 +48,7 @@ abstract class _LightOrDark with Store {
       dialogBackgroundColor: Color(0xffFCFCFC),
       buttonColor: Colors.green,
     );
+    _prefs.setInt(_themeField, 1);
   }
 
   @action
@@ -35,6 +61,7 @@ abstract class _LightOrDark with Store {
       dialogBackgroundColor: Color(0xffFCFCFC),
       buttonColor: Colors.green,
     );
+     _prefs.setInt(_themeField, 2);
   }
    @action
   void blueMode() {
@@ -46,6 +73,7 @@ abstract class _LightOrDark with Store {
       dialogBackgroundColor: Color(0xffFCFCFC),
       buttonColor: Colors.green,
     );
+     _prefs.setInt(_themeField, 3);
   }
    @action
   void yellowMode() {
@@ -57,6 +85,7 @@ abstract class _LightOrDark with Store {
       dialogBackgroundColor: Color(0xffFCFCFC),
       buttonColor: Colors.green,
     );
+     _prefs.setInt(_themeField, 4);
   }
    @action
   void indigoMode() {
@@ -68,6 +97,7 @@ abstract class _LightOrDark with Store {
       dialogBackgroundColor: Color(0xffFCFCFC),
       buttonColor: Colors.green,
     );
+     _prefs.setInt(_themeField, 5);
   }
 
   @action
@@ -100,5 +130,6 @@ abstract class _LightOrDark with Store {
           display4: TextStyle(color: Color(0xffFCFCFC)),
           headline: TextStyle(color: Color(0xffFCFCFC)),
         ));
+         _prefs.setInt(_themeField, 6);
   }
 }
