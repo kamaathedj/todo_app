@@ -4,9 +4,16 @@ import 'package:todo_app/src/model/constants.dart';
 // import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
+import 'package:todo_app/src/notifications/notification.dart';
 
-class Pop extends StatelessWidget {
+class Pop extends StatefulWidget {
+  @override
+  _PopState createState() => _PopState();
+}
+
+class _PopState extends State<Pop> {
   PersistentBottomSheetController controller;
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
@@ -43,10 +50,10 @@ class Pop extends StatelessWidget {
      
       
   }
-  
 
   void sheet(BuildContext context){
     final prov=Provider.of<LightOrDark>(context);
+    
     controller= Scaffold.of(context).showBottomSheet(             
         (context)=>BottomSheet(
           elevation: 50,
@@ -85,7 +92,7 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.normalMode();
-                      controller.close();                              
+                                               
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -107,7 +114,6 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.darkMode();
-                      controller.close();
                       
                       },
                     child: Padding(
@@ -130,7 +136,7 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.redMode();
-                        controller.close();
+                        
                         
                       },
                     child: Padding(
@@ -153,7 +159,7 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.blueMode();
-                      controller.close();
+                      
                       
                       },
                     child: Padding(
@@ -176,7 +182,7 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.yellowMode();
-                      controller.close();
+                      
                       
                       },
                     child: Padding(
@@ -199,8 +205,8 @@ class Pop extends StatelessWidget {
                     GestureDetector(
                     onTap: (){
                       prov.indigoMode();
-                      controller.close();
-                  
+                      
+                      
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -223,7 +229,9 @@ class Pop extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10,),
-                  Divider(height: 2,)
+                  Divider(height: 2,),
+                  SizedBox(height: 10,),
+                  new SoundSetting()
             ],
           ),
         ), onClosing: () {
@@ -232,7 +240,37 @@ class Pop extends StatelessWidget {
         )
       );
   }
+}
 
-  
+class SoundSetting extends StatefulWidget {
+  const SoundSetting({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _SoundSettingState createState() => _SoundSettingState();
+}
+
+class _SoundSettingState extends State<SoundSetting> {
+  @override
+  Widget build(BuildContext context) {
+    final _notification=Provider.of<NotificationPlugin>(context);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: <Widget>[
+          Text('Play sound on reminder notification',style: TextStyle(fontSize: 15),),
+          Switch(
+            onChanged: (bool k){
+            setState(() {
+              _notification.playsound=k;
+            });
+            },
+             value: _notification.playsound,
+          )
+        ],
+      ),
+    );
+  }
 }
 

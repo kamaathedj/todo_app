@@ -2,6 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationPlugin{
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  bool playsound=false;
 
   NotificationPlugin(){
     _initializePlugin();
@@ -32,7 +33,10 @@ class NotificationPlugin{
   final androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'show weekly channel id',
     'show weekly channel name',
-    'show weekly description'
+    'show weekly description',
+    enableLights: true,
+    playSound: playsound,
+    style: AndroidNotificationStyle.BigText,
   );
   final iOSPlatformChannelSpecifics=IOSNotificationDetails();
 
