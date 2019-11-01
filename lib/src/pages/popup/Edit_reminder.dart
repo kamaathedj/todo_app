@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
-class EditSheet extends StatelessWidget {
+class EditSheet extends StatefulWidget {
 
  final GlobalKey<ScaffoldState> _state;
   EditSheet(this._state);
+
+  @override
+  _EditSheetState createState() => _EditSheetState();
+}
+
+class _EditSheetState extends State<EditSheet> {
   PersistentBottomSheetController controller;
+
   String _title;
+
   String _description;
+
   final _formKey= GlobalKey<FormState>();
+
   TextFormField buildTitleFormField(BuildContext context,String hint) {
     return TextFormField(
           textCapitalization: TextCapitalization.sentences,
@@ -27,6 +37,7 @@ class EditSheet extends StatelessWidget {
               )
             );    
   }
+
   TextFormField buildDescriptionFormField(BuildContext context,String hint) {
     return TextFormField(
           textCapitalization: TextCapitalization.sentences,
@@ -51,7 +62,7 @@ class EditSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller=this._state.currentState.showBottomSheet(
+    controller=this.widget._state.currentState.showBottomSheet(
      (context)=>BottomSheet(
      elevation: 50,
             builder: (_) =>
