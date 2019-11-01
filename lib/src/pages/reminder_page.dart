@@ -246,6 +246,7 @@ class _ReminderPageState extends State<ReminderPage> {
                      print('deleted');
                      _db.removeReminderEntry(item);
                      _store.reminders.removeAt(index);
+                     _notification.cancelNotification(item.id);
                      _store.getReminders();
                      return Future(()=>true);
                      },
@@ -263,7 +264,6 @@ class _ReminderPageState extends State<ReminderPage> {
                   title: Text(item.title),
                   children: <Widget>[
                     Text(item.description),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Due on :  ${getDay(item.targetDate.toString())} of ${getDate(item.targetDate.toString())}',
