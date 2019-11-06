@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:todo_app/src/database/todo_db.dart';
 import 'package:todo_app/src/mobx/todo_store/todo_store.dart';
 import 'package:todo_app/src/notifications/notification.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class ReminderPage extends StatefulWidget {
   ReminderPage({Key key}) : super(key: key);
@@ -288,6 +289,7 @@ class _ReminderPageState extends State<ReminderPage> {
   }
 
   PersistentBottomSheetController buildShowBottomSheet(Reminder item, Database _db, TodoStore _store) {
+    final _notification=Provider.of<NotificationPlugin>(context);
     return _reminderScafoldKey.currentState.showBottomSheet(
                       (context)=>BottomSheet(
                       elevation: 50,
@@ -351,6 +353,8 @@ class _ReminderPageState extends State<ReminderPage> {
                           if (_formKey.currentState.validate()){
                           _formKey.currentState.save();
                           _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
+                          _notification.cancelNotification(item.id);
+                          _notification.showWeeklyAtDayAndTime(Time(15,12), Day(_dateTime.weekday+1), item.id, _title, _description);
                           controller.closed.then((i)=>_store.getReminders());
                           controller.close();
                             }
