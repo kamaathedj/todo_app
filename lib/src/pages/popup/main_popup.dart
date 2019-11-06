@@ -47,8 +47,6 @@ class _PopState extends State<Pop> {
       elevation: 20.0,
       icon: Icon(Icons.more_vert),
       );
-     
-      
   }
 
   void sheet(BuildContext context){
@@ -114,7 +112,6 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.darkMode();
-                      
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -136,8 +133,6 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.redMode();
-                        
-                        
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -159,8 +154,6 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.blueMode();
-                      
-                      
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -182,8 +175,6 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.yellowMode();
-                      
-                      
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -205,8 +196,6 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.indigoMode();
-                      
-                      
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
