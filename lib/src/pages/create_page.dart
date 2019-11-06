@@ -293,15 +293,15 @@ class _CreatePageState extends State<CreatePage> {
     );
   }
  
-  DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
-  int hour=theTime.hour;
-  int minute=theTime.minute;
+  // DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
+  // int hour=theTime.hour;
+  // int minute=theTime.minute;
   
   
   }
   
   
-}
+// }
 DateTime date=DateTime.now();
 
 class DateReminderButton extends StatefulWidget {
