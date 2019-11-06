@@ -228,36 +228,29 @@ class _CreatePageState extends State<CreatePage> {
       child: Dialog(
       child: ListView(
         children: <Widget>[
-          Container(
-          height: 430,
-          child: ListView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-              children: <Widget>[
-                Text('Add a Reminder',style:  TextStyle(fontSize: 20.0,)),
-                Divider(color: Colors.green),
-                 Text('Title'),
-                buildTitleFormField(context),
-                SizedBox(height: 10,),
-                Text('Description'),
-                SizedBox(height: 5,),
-                buildDescriptionFormField(context),
-                SizedBox(height: 10,),
-                DateReminderButton(),
-                SizedBox(height: 10,),
-                ReminderTimeButton()
-                
-                 
-                // end
-                  
-              ],
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+          children: <Widget>[
+            Text('Add a Reminder',style:  TextStyle(fontSize: 20.0,)),
+            Divider(color: Colors.green),
+             Text('Title'),
+            buildTitleFormField(context),
+            SizedBox(height: 10,),
+            Text('Description'),
+            SizedBox(height: 5,),
+            buildDescriptionFormField(context),
+            SizedBox(height: 10,),
+            DateReminderButton(),
+            SizedBox(height: 10,),
+            ReminderTimeButton()
+            
+             
+            // end
+              
+          ],
             ),
-    )
-  ],
     ),
-  ),
   ButtonBar(
       alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -292,16 +285,8 @@ class _CreatePageState extends State<CreatePage> {
 }
     );
   }
- 
-  // DateTime getCombinedTimeAndDate(DateTime theDate,TimeOfDay theTime){
-  // int hour=theTime.hour;
-  // int minute=theTime.minute;
-  
-  
-  }
-  
-  
-// }
+}
+
 DateTime date=DateTime.now();
 
 class DateReminderButton extends StatefulWidget {
