@@ -13,7 +13,13 @@ class Pop extends StatefulWidget {
 
 class _PopState extends State<Pop> {
   PersistentBottomSheetController controller;
+  changeNotificationColor(BuildContext context){
+    final _notification = Provider.of<NotificationPlugin>(context);
+    setState(() {
+      _notification.color=Theme.of(context).primaryColor;
+    });
 
+  }
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
@@ -50,7 +56,7 @@ class _PopState extends State<Pop> {
   }
 
   void sheet(BuildContext context){
-    final prov=Provider.of<LightOrDark>(context);
+    final prov = Provider.of<LightOrDark>(context);
     
     controller= Scaffold.of(context).showBottomSheet(             
         (context)=>BottomSheet(
@@ -90,7 +96,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.normalMode();
-                                               
+                      changeNotificationColor(context);            
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -112,6 +118,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.darkMode();
+                       changeNotificationColor(context); 
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -133,6 +140,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.redMode();
+                       changeNotificationColor(context); 
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -154,6 +162,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.blueMode();
+                       changeNotificationColor(context); 
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -175,6 +184,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.yellowMode();
+                       changeNotificationColor(context); 
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -196,6 +206,7 @@ class _PopState extends State<Pop> {
                     GestureDetector(
                     onTap: (){
                       prov.indigoMode();
+                     changeNotificationColor(context); 
                       },
                     child: Padding(
                       padding: EdgeInsets.only(top: 8,left: 8,right: 8),
