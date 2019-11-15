@@ -30,7 +30,7 @@ class NotificationPlugin{
 
   }
 
-  Future<void> showWeeklyAtDayAndTime(Time time, Day day, int id, String title, String description)async{
+  Future<void> ScheduledNotification( int id, String title, String description, DateTime scheduledDate)async{
   final androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'show weekly channel id',
     'show weekly channel name',
@@ -46,16 +46,9 @@ class NotificationPlugin{
     androidPlatformChannelSpecifics,
     iOSPlatformChannelSpecifics
   );
+  await _flutterLocalNotificationsPlugin.schedule(id, title, description, scheduledDate, platformChannelSpecifics);
+  
 
-  // dispatch notification
-  await _flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(
-    id, 
-    title, 
-    description, 
-    day, 
-    time,
-  platformChannelSpecifics
-  );
   }
   // getting all the pending notifications
   Future<List<PendingNotificationRequest>> getScheduledNotifications() async{

@@ -267,9 +267,9 @@ class _CreatePageState extends State<CreatePage> {
           onPressed: ()async{
             if (_formKey.currentState.validate()){
               _formKey.currentState.save();
-             int k= await _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:date ));
-             var time=Time(selectedTime.hour,selectedTime.minute);
-             _notification.showWeeklyAtDayAndTime(time, Day(DateTime.parse(date.toString()).weekday+1), k, _title, _description);
+             int id= await _db.addReminderEntry(Reminder(title: _title,description: _description,targetDate:date ));
+             DateTime dateWithTime = DateTime(date.year,date.month,date.day,selectedTime.hour,selectedTime.minute);
+             _notification.ScheduledNotification(id, _title, _description,dateWithTime);
             _store.getReminders();
             Navigator.pop(context);
             
@@ -387,4 +387,3 @@ class _ReminderTimeButtonState extends State<ReminderTimeButton> {
 
   }
 }
-

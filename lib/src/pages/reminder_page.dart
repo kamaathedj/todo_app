@@ -354,7 +354,7 @@ class _ReminderPageState extends State<ReminderPage> {
                           _formKey.currentState.save();
                           _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
                           _notification.cancelNotification(item.id);
-                          _notification.showWeeklyAtDayAndTime(Time(15,12), Day(_dateTime.weekday+1), item.id, _title, _description);
+                          _notification.ScheduledNotification(item.id, _title, _description,_dateTime);
                           controller.closed.then((i)=>_store.getReminders());
                           controller.close();
                             }
