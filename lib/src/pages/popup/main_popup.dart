@@ -5,6 +5,7 @@ import 'package:todo_app/src/model/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/src/mobx/ui_mobx/mode_store.dart';
 import 'package:todo_app/src/notifications/notification.dart';
+import 'package:todo_app/src/pages/about.dart';
 
 class Pop extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _PopState extends State<Pop> {
          if(choice==Constants.settings){
             sheet(context);
           }else if(choice==Constants.about){
-            print('about');
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => About()));
           }else{
             print('nothing clicked');
           }
