@@ -24,7 +24,10 @@ PersistentBottomSheetController controller;
 
 String getTime(String date){
  int hour= DateTime.parse(date).hour;
- int minute= DateTime.parse(date).minute;
+ int minute = DateTime.parse(date).minute;
+ if(minute < 10){
+    return '$hour :' '0$minute';
+ }
 
  return '$hour : $minute';
 }
@@ -267,7 +270,7 @@ class _ReminderPageState extends State<ReminderPage> {
                     Text(item.description),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Due on :  ${getDay(item.targetDate.toString())} of ${getDate(item.targetDate.toString())}',
+                      child: Text('Due on :  ${getDay(item.targetDate.toString())} of ${getDate(item.targetDate.toString())} at ${getTime(item.targetDate.toString())}',
                       style: TextStyle(color: Colors.grey),),
                     ),
                     
@@ -325,14 +328,15 @@ class _ReminderPageState extends State<ReminderPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: buildDescriptionFormField(context,item.description),
                       ),
-                      // Text('select a a new date'),
-                      ExpansionTile(
-                      leading: Icon(Icons.calendar_today),
-                      title: Text('Select a new Date'),
-                      children: <Widget>[
-                         Picker(),
-                      ],
-                      ),
+                      ReminderTimeButton(),
+                      DateReminderButton(),
+                      // ExpansionTile(
+                      // leading: Icon(Icons.calendar_today),
+                      // title: Text('Select a new Date'),
+                      // children: <Widget>[
+                      //    Picker(),
+                      // ],
+                      // ),
 
                       ButtonBar(
                       alignment: MainAxisAlignment.spaceEvenly,
@@ -352,9 +356,10 @@ class _ReminderPageState extends State<ReminderPage> {
                         onPressed: (){
                           if (_formKey.currentState.validate()){
                           _formKey.currentState.save();
-                          _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: _dateTime));
+                          DateTime date = DateTime(_dateTime.year,_dateTime.month,_dateTime.day,selectedTime.hour,selectedTime.minute);
+                          _db.updateReminders(Reminder(id: item.id,title: _title,description: _description,targetDate: date));
                           _notification.cancelNotification(item.id);
-                          _notification.ScheduledNotification(item.id, _title, _description,_dateTime);
+                          _notification.ScheduledNotification(item.id, _title, _description,date);
                           controller.closed.then((i)=>_store.getReminders());
                           controller.close();
                             }
@@ -377,28 +382,105 @@ class _ReminderPageState extends State<ReminderPage> {
   
 }
 
-DateTime _dateTime=DateTime.now();
-class Picker extends StatefulWidget {  
-  _PickerState createState() => _PickerState();
+TimeOfDay selectedTime=TimeOfDay.now();
+class ReminderTimeButton extends StatefulWidget {
+  const ReminderTimeButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _ReminderTimeButtonState createState() => _ReminderTimeButtonState();
 }
 
-class _PickerState extends State<Picker> {
-  @override
-  Widget build(BuildContext context){
-    return Container(
-      width: 300,
-       child:  MonthPicker(
-                  firstDate: DateTime.now().subtract(const Duration(days: 20)),
-                   onChanged: (DateTime value) {
-                     setState(() {
-                       _dateTime=value;
-                       print(_dateTime);
-                     });
-                   }, 
-                   lastDate: DateTime.now().add(const Duration(days: 30)), 
-                   selectedDate: _dateTime
+class _ReminderTimeButtonState extends State<ReminderTimeButton> {
 
-                ),
+   Future<void> selectTime()async{
+    final time=await showTimePicker(
+      context: context, 
+      initialTime: selectedTime
+    );
+    setState(() {
+    if(time == null){
+       selectedTime=TimeOfDay.now(); 
+    }else{
+      selectedTime=time;
+    }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text('Choose time '),
+         FlatButton(
+       color: Theme.of(context).buttonColor,
+       onPressed: selectTime,
+       child: Text('${selectedTime.hour} : ${addZero(selectedTime.minute)}'),
+     )
+      ],
+    );
+  }
+
+  String addZero(int minute){
+    if(minute <10 ){
+      return '0$minute';
+    }else{
+     return '$minute';
+    }
+
+  }
+}
+
+
+
+DateTime _dateTime=DateTime.now();
+class DateReminderButton extends StatefulWidget {
+  const DateReminderButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _DateReminderButtonState createState() => _DateReminderButtonState();
+}
+
+class _DateReminderButtonState extends State<DateReminderButton> {
+  Future<void> showDate()async{
+      final _date=await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 10)),
+      lastDate: DateTime.now().add(Duration(days: 10))
+    );
+    setState(() {
+     if(_date==null){
+       _dateTime=DateTime.now();
+     } else{
+      _dateTime=_date;
+     }
+     
+    });
+  }
+  String getDate(String date){
+  int year=DateTime.parse(date).year;
+  int month=DateTime.parse(date).month;
+  int day=DateTime.parse(date).day;
+
+  return '$day/$month/$year';
+}
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+      Text('Choose date'),
+      FlatButton(
+        color: Theme.of(context).buttonColor,
+        onPressed: showDate,
+        child: Text(getDate(_dateTime.toString())),
+      )
+      ],
     );
   }
 }
