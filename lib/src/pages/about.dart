@@ -27,16 +27,16 @@ class About extends StatelessWidget {
               subtitle: Text('Todo App'),
             ),
             ListTile(
-              title: Text('More about the app'),
-              subtitle: Text('it tracks your today todos in a fun and expressive manner'),
+              title: Text('More about the app.'),
+              subtitle: Text('it tracks your today todos in a fun and expressive manner.'),
             ),
             ListTile(
               title: Text('Maker'),
               subtitle: Text('David kamau'),
             ),
             ListTile(
-              title: Text('Follow on github'),
-              subtitle: Text('github.com/kamaathedj'),
+              title: Text('Follow on github 🧲'),
+              subtitle: Text('github.com/kamaathedj.'),
             )
           ],
 

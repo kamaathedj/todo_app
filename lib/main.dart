@@ -62,18 +62,10 @@ class MyApp extends StatelessWidget {
                     
             debugShowCheckedModeBanner: false,
             title: 'Todo App',
-            // theme: ThemeData(
-            //   primarySwatch: Colors.green,
-            //   fontFamily: 'Oxygen'
-              
-            // ),
             theme:modeProvider.mode,
-
-            
-            //  home: Navigation(),
             home: Navigator(),
             ),
-                        )
+                   )
         );
     
     
